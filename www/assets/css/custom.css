@@ -1,0 +1,238 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+  /* padding-top: 70px; */
+}
+
+body { 
+	background: url(../img/bg-01.jpg) no-repeat fixed 100% 100%;
+	
+	-webkit-background-size: 100%;
+	-o-background-size: 100%;
+	-moz-background-size: 100%;
+	-ms-background-size: 100%;
+	-khtml-background-size: 100%;
+	background-size: 100%;
+	
+	color: #999999;
+}
+
+.bg-full-size {
+	-webkit-background-size: 120%;
+	-o-background-size: 120%;
+	-moz-background-size: 120%;
+	-ms-background-size: 120%;
+	-khtml-background-size: 120%;
+	background-size: 120%;
+}
+
+.stop-scrolling {
+	height: 100%;
+	overflow: hidden;
+}
+
+.container {
+	width: 100%;
+}
+
+img.loading {
+	opacity:0.3;
+}
+
+#map-container {
+	position: absolute;
+	/* background-color:red; */
+	width: 100%;
+	height: auto;
+	top: 50px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0px auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+#wrap > .container {
+  padding: 70px 15px 0;
+}
+.container .credit {
+  margin: 20px 0;
+}
+
+#footer > .container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+code, pre {
+  font-size: 100%;
+}
+
+.navbar-brand {
+	z-index: 100001;
+}
+
+/*
+ * Callouts
+ *
+ * Not quite alerts, but custom and helpful notes for folks reading the docs.
+ * Requires a base and modifier class.
+ */
+
+/* Common styles for all types */
+.bs-callout {
+  /* margin: 20px 0; */
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
+}
+.bs-callout h4 {
+  margin-top: 0;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+.bs-callout code,
+.bs-callout .highlight {
+  background-color: #fff;
+}
+
+/* Variations */
+.bs-callout-danger {
+  background-color: #fcf2f2;
+  border-color: #dFb5b4;
+}
+.bs-callout-warning {
+  background-color: #fefbed;
+  border-color: #f1e7bc;
+}
+.bs-callout-info {
+  background-color: #f0f7fd;
+  border-color: #d0e3f0;
+}
+
+.table > thead > tr > td.info, .table > tbody > tr > td.info, .table > tfoot > tr > td.info, .table > thead > tr > th.info, .table > tbody > tr > th.info, .table > tfoot > tr > th.info, .table > thead > tr.info > td, .table > tbody > tr.info > td, .table > tfoot > tr.info > td, .table > thead > tr.info > th, .table > tbody > tr.info > th, .table > tfoot > tr.info > th {
+  background-color: #f0f7fd;
+  border-color: #d0e3f0;
+}
+
+.manual > .page-header {
+	position:relative;
+	margin-top:-15px;
+}
+
+body {
+	color: #d5d5d5 !important;
+}
+
+.navbar-inverse {
+	background-color: #152230 !important;
+}
+
+.form-control {
+	background-color: rgba(21,34,48,0.8) !important;
+	color: #d5d5d5 !important;
+}
+
+/* input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(21,34,48,0.8) inset;
+} */
+
+/* reg-panel */
+
+.reg-panel {
+	width: 448px;
+	min-height: 150px;
+	/* background-color:red; */
+	margin-right: auto;
+	margin-left: auto;
+	position:relative;
+	/* color:#eee !important; */
+}
+
+.reg-panel .reg-panel-bg {
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	/* background-color:green; */
+	position:absolute;
+	z-index:-1;
+}
+
+.reg-panel .reg-panel-bg .top {
+	background: url(../img/panel-top.png) no-repeat center 0;
+	position:absolute;
+	width: 448px;
+	height: 43px;
+}
+
+.reg-panel .reg-panel-bg .bottom {
+	background: url(../img/panel-bottom.png) no-repeat center 0;
+	position:absolute;
+	bottom: 0px;
+	width: 448px;
+	height: 43px;
+}
+
+.reg-panel .reg-panel-bg .mid {
+	background: url(../img/panel-mid.png) repeat-y center 0;
+	position:absolute;
+	top: 43px;
+	bottom: 42px;
+	width: 448px;
+}
+
+.reg-panel .reg-panel-header {
+	position:absolute;
+	top:-10px;
+	left:0px;
+	width: 448px;
+	height:50px;
+	padding: 0 40px;
+	text-align: center;
+}
+
+.reg-panel .reg-panel-header h3 {
+	/* padding-top:10px; */
+}
+
+.reg-panel .reg-panel-footer {
+	position:absolute;
+	bottom:-10px;
+	left:0px;
+	width: 448px;
+	height:50px;
+	padding: 7px 0 0;
+	text-align: center;
+}
+
+.reg-panel .reg-panel-body {
+	padding: 70px 40px;
+	position: relative;
+}
+
+.oxsar-logo {
+}

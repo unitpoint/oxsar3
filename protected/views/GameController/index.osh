@@ -1,0 +1,115 @@
+﻿<% 
+	@controller.pageTitle = "Metro 2033"
+	var baseUrl = app.request.getBaseUrl(true)
+%>
+<style>
+
+.map-bg {
+}
+
+.map-station {
+	background-color:red;
+}
+
+</style>
+
+<script>
+$(function(){
+	<%
+		for(var id, station in app.params.map.stations){
+			station.id = id
+			station.name = _T("STATION_${id.upper()}")
+		}
+	%>
+	var map = <%=json.encode(app.params.map)%>;
+	var stationSize = 26;
+	
+	$("<div id='map-bg' class='map-bg'>").css({
+		width: map.width+"px", 
+		height: map.height+"px",
+		// "background-image": "url(<%=baseUrl%>/assets/img/metro-map.png)",
+		// margin: "0 auto"
+		position: "absolute",
+		top: ($(window).height() - map.height) / 2,
+		left: ($("#map").width() - map.width) / 2,
+	}).appendTo($("#map"));
+
+	var paper = Raphael(document.getElementById("map-bg"), map.width, map.height);
+	
+	paper.circle(map.width/2, map.height/2, Math.min(map.width, map.height)/2)
+		.attr({
+		  "fill": "r#908888:0-#000",
+		  // "fill-opacity": 0.1,
+		  opacity: 0
+		});
+	
+	var bg_img = paper.image("<%=baseUrl%>/assets/img/metro-map.png", 0, 0, map.width, map.height);
+	
+	$("#side").css({position: "relative"});
+	
+	var selectedStation = null;
+	function selectStation(id){
+		if(selectedStation === id){
+			return;
+		}
+		selectedStation = id;
+		
+		$("#side").empty().append($("<div class=\"panel panel-default\">"
+			+ "<div class=\"panel-heading\">"
+			+ map.stations[id].name
+			+ "</div>"
+			+ "<div class=\"panel-body text-center\">"
+			+ "<img width=\"100%\" src=\"<%=baseUrl%>/assets/img/stations/"+id+".jpg\">"
+			+ "</div></div>").fadeIn(500));
+			
+		$.ajax({
+			cache: false,
+			url: "<%=@controller.createUrl{controller="gameAjax", action="stationInfo"}%>",
+			type: "POST",
+			data: {id: id},
+			dataType: "json",
+			timeout: 10000,
+			success: function(data, status, jqXHR){
+				console.log("success", id, data, status);
+			},
+			error: function(jqXHR, status){
+				console.log("error", id, status);
+			},
+			
+		});
+	}
+	
+	for(var id in map.stations){
+		var station = map.stations[id];
+		var s = paper.circle(station.x, station.y, stationSize/2)
+			.attr({
+				fill: "#A33",
+				opacity: 0.1,
+				cursor: "pointer",
+				title: station.name
+			})
+			.data("station", station)
+			.click(function(){
+				console.log(this.data("station").id);
+				selectStation(this.data("station").id);
+			});
+	}
+});
+</script>
+
+
+<div class="row">
+	<div class="col-xs-3" id="side">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<%=_T.MENU_HERO%>
+			</div>
+			<div class="panel-body text-center">
+				<img width="100%" src="<%=baseUrl%>/assets/img/hero-hunter.jpg">
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-9">
+		<div id="map" width="100%"></div>
+	</div>
+</div>

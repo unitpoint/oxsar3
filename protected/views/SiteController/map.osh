@@ -1,0 +1,13 @@
+<% 
+	@controller.widget{"MapWidget", containerId="map-container"}
+%>
+
+<div id="map-container"></div>
+
+<%if(false){%>
+<div class="row">
+	<div class="col-xs-12">
+		<div id="map-container"></div>
+	</div>
+</div>
+<%}/*if*/%>

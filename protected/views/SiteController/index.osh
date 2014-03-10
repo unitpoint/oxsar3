@@ -1,0 +1,205 @@
+﻿<% 
+	var baseUrl = app.request.fullBaseUrl
+	// @controller.pageTitle = "Metro 2033"
+	@form || @form = "sign-in"
+	@controller.widget{"MapWidget", containerId="map-container"}
+%>
+<script>
+var cur_panel = "";
+
+$(function(){
+	$(".btn-remember-password").click(function(){
+		selectPanel("form-remember-password");
+	});
+	$(".btn-register").click(function(){
+		selectPanel("form-register");
+	});
+	$(".btn-sign-in").click(function(){
+		selectPanel("form-sign-in");
+	});
+	selectPanel("form-<%=@form%>");
+	
+	/*
+	var logo = $(".oxsar-logo");
+	new TimelineMax()
+		// .from(logo, 3, {left: "-150px"}, 0)
+		.from(logo, 4, {opacity:0}, 0)
+		;
+	*/
+});
+
+function selectPanel(id){
+	if(cur_panel == ""){
+		$("#"+id).delay(200).fadeIn(500);
+		cur_panel = id;
+	}else if(cur_panel != id){
+		$("#"+cur_panel).fadeOut(150);
+		$("#"+id).delay(200).fadeIn(300);
+		cur_panel = id;
+	}
+}
+
+</script>
+
+<div style="position: absolute; left: 50%; height: 80%; top:-85px">
+    <div style="position: relative; left: -50%; display: table; height: 100%;">
+        <div style="display: table-cell; vertical-align: top">
+		
+<div class="row">
+	<div class="col-xs-12">
+		<div class="oxsar-logo">
+			<img src="<%=baseUrl%>/assets/img/oxsar-logo.png">
+		</div>
+	</div>
+</div>
+        </div>
+    </div>
+</div>
+
+<div style="position: absolute; left: 50%; height: 80%;">
+    <div style="position: relative; left: -50%; display: table; height: 100%;">
+        <div style="display: table-cell; vertical-align: middle;">
+		
+<div class="row">
+	<div class="col-xs-12">
+	
+		<div class="reg-panel" id="form-sign-in" style="display:none">
+			<div class="reg-panel-bg">
+				<div class="top"></div>
+				<div class="mid"></div>
+				<div class="bottom"></div>
+			</div>
+			<div class="reg-panel-header">
+				<h3><%=_T.SIGN_IN%></h3>
+			</div>
+			<div class="reg-panel-body">
+			
+				<div class="row">
+					<div class="col-xs-12">
+			
+						<form class="form-horizontal" role="form" method="post" action="<%=@controller.createUrl{action="login"}%>">
+							<%@controller.widget{'FormGroupWidget', model=@model, attribute="email", showState=@form=="sign-in"}%>
+							<%@controller.widget{'FormGroupWidget', model=@model, attribute="password", showState=@form=="sign-in"}%>
+						  <%if(false){%>
+						  <div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+							  <div class="checkbox">
+								<label>
+								  <input type="checkbox" name="LoginForm[rememberMe]" id="LoginForm_remember_me" ><%=_T.REMEMBER_ME%>
+								</label>
+							  </div>
+							</div>
+						  </div>
+						  <%}/*if*/%>
+						  <div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+							  <button type="submit" class="btn btn-primary"><%=_T.SIGN_IN%></button>
+							</div>
+						  </div>
+						</form>
+				
+					</div>
+				</div>
+
+				<%if(false){%>
+				<div class="row">
+					<div class="col-xs-12 text-left">
+			
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+						sdh asdjhaskj dhaksjd kjasdh jkshd ajskhd
+				
+					</div>
+				</div>
+				<%}/*if*/%>
+			</div>
+			<div class="reg-panel-footer">
+				<button type="button" class="btn btn-primary btn-xs btn-sign-in" disabled="disabled"><%=_T.SIGN_IN%></button>
+				<button type="button" class="btn btn-primary btn-xs btn-remember-password"><%=_T.REMEMBER_PASSWORD%></button>
+				<button type="button" class="btn btn-primary btn-xs btn-register"><%=_T.REGISTER%></button>
+			</div>
+		</div>
+	
+		<div class="reg-panel" id="form-remember-password" style="display:none">
+			<div class="reg-panel-bg">
+				<div class="top"></div>
+				<div class="mid"></div>
+				<div class="bottom"></div>
+			</div>
+			<div class="reg-panel-header">
+				<h3><%=_T.REMEMBER_PASSWORD%></h3>
+			</div>
+			<div class="reg-panel-body">
+			
+				<div class="row">
+					<div class="col-xs-12">
+			
+						<form class="form-horizontal" role="form" method="post" action="<%=@controller.createUrl{action="rememberPassword"}%>">
+							<%@controller.widget{'FormGroupWidget', model=@model, attribute="email", showState=@form=="remember-password"}%>
+						  <div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+							  <button type="submit" class="btn btn-primary"><%=_T.REMEMBER_PASSWORD%></button>
+							</div>
+						  </div>
+						</form>
+				
+					</div>
+				</div>
+				
+			</div>
+			<div class="reg-panel-footer">
+				<button type="button" class="btn btn-primary btn-xs btn-sign-in"><%=_T.SIGN_IN%></button>
+				<button type="button" class="btn btn-primary btn-xs btn-remember-password" disabled="disabled"><%=_T.REMEMBER_PASSWORD%></button>
+				<button type="button" class="btn btn-primary btn-xs btn-register"><%=_T.REGISTER%></button>
+			</div>
+		</div>
+	
+		<div class="reg-panel" id="form-register" style="display:none">
+			<div class="reg-panel-bg">
+				<div class="top"></div>
+				<div class="mid"></div>
+				<div class="bottom"></div>
+			</div>
+			<div class="reg-panel-header">
+				<h3><%=_T.REGISTER%></h3>
+			</div>
+			<div class="reg-panel-body">
+			
+				<div class="row">
+					<div class="col-xs-12">
+			
+						<form class="form-horizontal" role="form" method="post" action="<%=@controller.createUrl{action="register"}%>">
+							<%@controller.widget{'FormGroupWidget', model=@model, attribute="email", showState=@form=="register"}%>
+							<%@controller.widget{'FormGroupWidget', model=@model, attribute="password", showState=@form=="register"}%>
+							<%@controller.widget{'FormGroupWidget', model=@model, attribute="invite_code", showState=@form=="register"}%>
+						  <div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+							  <button type="submit" class="btn btn-primary"><%=_T.REGISTER%></button>
+							</div>
+						  </div>
+						</form>
+				
+					</div>
+				</div>
+				
+			</div>
+			<div class="reg-panel-footer">
+				<button type="button" class="btn btn-primary btn-xs btn-sign-in"><%=_T.SIGN_IN%></button>
+				<button type="button" class="btn btn-primary btn-xs btn-remember-password"><%=_T.REMEMBER_PASSWORD%></button>
+				<button type="button" class="btn btn-primary btn-xs btn-register" disabled="disabled"><%=_T.REGISTER%></button>
+			</div>
+		</div>
+	
+	</div>
+</div>
+
+        </div>
+    </div>
+</div>
+<div style="position: absolute; z-index:-2;" id="map-container"></div>

@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="<%=app.lang%>">
+<% 
+	var CLIENT_VERSION = app.params.CLIENT_VERSION
+	var baseUrl = app.request.fullBaseUrl
+	var useMinifyEngine = !app.isLocal || false
+%>
+<head>
+	<meta charset="<%=html.encode(app.charset)%>">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<%=html.encode(@controller.pageDesc)%>">
+	<meta name="keywords" content="<%=html.encode(@controller.pageKeywords)%>">
+	<meta name="author" content="<%=html.encode(@controller.pageAuthor)%>">
+	<link rel="shortcut icon" href="<%=baseUrl%>/assets/ico/favicon.png?<%=CLIENT_VERSION%>">
+
+	<title><%=html.encode(@controller.pageTitle)%></title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="<%=baseUrl%>/assets/css/bootstrap.css?<%=CLIENT_VERSION%>" rel="stylesheet">
+	
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="<%=baseUrl%>/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	<![endif]-->
+	
+	<!--[if gte IE 9]>
+	<style type="text/css">
+		.gradient_ie9 {
+		   filter: none;
+		}
+	</style>
+	<![endif]-->
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script> -->
+	<script src="<%=baseUrl%>/assets/js/bootstrap.min.js?<%=CLIENT_VERSION%>"></script>
+	<script src="<%=baseUrl%>/assets/js/raphael.js?<%=CLIENT_VERSION%>"></script>
+	<script src="<%=baseUrl%>/assets/js/raphael.group.js?<%=CLIENT_VERSION%>"></script>
+	<script src="<%=baseUrl%>/assets/js/TweenMax.min.js?<%=CLIENT_VERSION%>"></script>
+	<!-- <script src="<%=baseUrl%>/assets/js/jquery.jcryption.3.0.js?<%=CLIENT_VERSION%>"></script> -->
+	<script src="<%=baseUrl%>/assets/js/jquery.event.drag-2.2.js?<%=CLIENT_VERSION%>"></script>
+	<script src="<%=baseUrl%>/assets/js/jquery.event.drag.live-2.2.js?<%=CLIENT_VERSION%>"></script>
+	<!-- <script src="<%=baseUrl%>/assets/js/jquery.galaxymap.js?<%=CLIENT_VERSION%>"></script> -->
+
+	<!-- Custom styles for this template -->
+	<link href="<%=baseUrl%>/assets/css/custom-theme.css?<%=CLIENT_VERSION%>" rel="stylesheet">
+	<link href="<%=baseUrl%>/assets/css/custom.css?<%=CLIENT_VERSION%>" rel="stylesheet">
+	
+<%if(useMinifyEngine){%>	
+	<script src="<%=baseUrl%>/assets/js/oxsar3.min.js?<%=CLIENT_VERSION%>"></script>
+<%}else{%>
+	// ---=== BEGIN OXSAR 3 ENGINE JS SRC ===---
+	<script src="<%=baseUrl%>/assets/js/oxsar3-js-src/js/dummy-1.js?<%=CLIENT_VERSION%>"></script>
+	<script src="<%=baseUrl%>/assets/js/oxsar3-js-src/js/oxsar3-core.js?<%=CLIENT_VERSION%>"></script>
+	<script src="<%=baseUrl%>/assets/js/oxsar3-js-src/js/dummy-2.js?<%=CLIENT_VERSION%>"></script>
+	// ---=== END OXSAR 3 ENGINE JS SRC ===---
+<%}/*if*/%>
+
+	
+	<script>
+		$(function(){
+			$('.disable-selection').disableSelection();
+		});
+	</script>
+	
+</head>
+
+<body class="stop-scrolling">
+
+	<div id="wrap" class="disable-selection">
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="<%=baseUrl%>/"><%=_T.TITLE_GAME%></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<%
+							var menuItems = {
+								map = _T.MENU_MAP,
+							}
+							var curAction = @controller.actionId
+							for(var action, name in menuItems){
+								var isActive = curAction == action
+								var url = @controller.createUrl{controller="site", action=action}
+								echo "<li"..(isActive ? " class='active'" : "").."><a href='${url}'>${name}</a></li>"
+							}
+						%>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<%if(app.user.isLogged){%>
+						<li><a href="<%=@controller.createUrl{controller="site", action="logout"}%>"><%=_T.MENU_LOGOUT%></a></li>
+						<%}/*if*/%>
+						<li><a href="http://objectscript.org" target="_blank"><%=_T("Made with ObjectScript")%></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<%=@content%>
+		</div>
+		
+		<p></p>
+	</div>
+
+	<%if(false){%>
+	<div id="footer">
+		<div class="container">
+			<div class="pull-right" style="margin-top:15px;">
+				<%=@controller.renderPartial("/layouts/_counter-liveinternet")%>
+			</div>
+			<p class="text-muted credit pull-right" style="margin-right:15px;">
+				<%=sprintf("%dms", (DateTime.now() - appStartTime) * (60*60*24*1000))%>
+			</p>
+			<p class="text-muted credit"><%=_T.FOOTER_CREDIT%></p>
+		</div>
+	</div>
+	<%}%>
+	
+	<%if(false){%>
+	<pre class="prettyprint linenums lang-js"><%
+		dump(_SERVER)
+	%></pre>
+	<%}%>
+</body>
+
+</html>

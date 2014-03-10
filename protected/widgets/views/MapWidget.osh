@@ -1,0 +1,337 @@
+<style>
+/*
+.galaxy-map {
+    width: 100%;
+    height: 550px;
+    background-color: #0A246A;
+}
+*/
+
+.galaxy-map-horiz-rule {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.galaxy-map-vert-rule {
+    background-color: rgba(255,255,255,0.1);
+}
+
+</style>
+
+<script>
+$(function(){
+	oxsar3.main(<%=json.encode{
+		mapId = @containerId,
+		loadTileDataUrl = @controller.createUrl{controller="ajax", action="loadTileData"},
+		/* tileSize = tileSize,
+		maxZoom = app.params.MAX_ZOOM,
+		minZoom = app.params.MIN_ZOOM,
+		defZoom = app.params.DEF_ZOOM,
+		baseUrl = app.request.fullBaseUrl,
+		tileDataUrl = @controller.createUrl{controller="ajax", action="tileData"},
+		lang = {
+			// youAreHere: _T("You are here"),
+		}, */
+	}%>);
+	return;
+
+	$('#map-container').galaxymap({
+        galaxy: 1,
+        size: {
+            horiz: [-900, 900],
+            vert: [-900, 900],
+            rule: 64,
+            chunk: 10
+        },
+        ruleWidth: 45,
+		ruleHeight: 40,
+        viewEdge: 1,
+		backgroundFadeOpacity: 0,
+        horizRuleImage: '/assets/img/rule-horiz.png',
+        vertRuleImage: '/assets/img/rule-vert.png',
+        backgroundImage: '/assets/img/galaxy-bg/2.jpg',
+        // xy: [500, 500],
+		// offs: [0, 0],
+        loadChunkUrl: ''
+    });
+});
+</script>
+
+<%
+	return;
+	
+	var tileSize = app.params.TILE_SIZE
+%>
+<script>
+$(function(){
+	oxsar3.main(<%=json.encode{
+		mapId = @containerId, 
+		tileSize = tileSize,
+		maxZoom = app.params.MAX_ZOOM,
+		minZoom = app.params.MIN_ZOOM,
+		defZoom = app.params.DEF_ZOOM,
+		baseUrl = app.request.fullBaseUrl,
+		tileDataUrl = @controller.createUrl{controller="ajax", action="tileData"},
+		lang = {
+			// youAreHere: _T("You are here"),
+		},
+	}%>);
+});
+</script>
+<% 
+	return;
+	var baseUrl = app.request.fullBaseUrl
+	var containerId = @containerId
+%>
+<script>
+$(function(){
+	var topHeight = 70;
+	var map = {
+		width: 2000, // $(window).width(),
+		height: 2000, // $(window).height() - topHeight + 20,
+		__dump__: null
+	};
+	var mapDiv = $("<div id='map-bg'>").css({
+		width: map.width,
+		height: map.height,
+		// "background-image": "url(<%=baseUrl%>/assets/img/metro-map.png)",
+		// margin: "0 auto"
+		position: "absolute",
+		top: 0, // -20,
+		left: 0
+	}).appendTo($("#<%=containerId%>"));
+	
+	/*
+	var timeline = new TimelineMax({repeat:-1})
+		.set(mapDiv, {scale: 0.3})
+		.to(mapDiv, 10, {scale: 0.02, top:200})
+		.to(mapDiv, 10, {scale: 0.3})
+		;
+	*/
+	
+	function newSunSystem(params){ // x, y, size, type, time){
+		var src = "<%=baseUrl%>/assets/img/planets/sun-shine-01.png";
+		var src_2 = "<%=baseUrl%>/assets/img/planets/sun-shine-02.png";
+		var width = params.size*0.4 || 256;
+		var height = width;
+		var time = params.time*0.25 || 40;
+		var shine1, shine2, shine3;
+		var sun = $("<div />").css({
+			position: "absolute",
+			left: params.x,
+			top: params.y
+			// width: width,
+			// height: height,
+		}).append(shine1 = $("<img>")
+			.attr("src", src)
+			.css({
+				cursor: "pointer",
+				position: "absolute",
+				width: width,
+				height: height,
+				// "-webkit-filter": "hue-rotate(90deg) grayscale(0.0)",
+				top: -width/2,
+				left: -height/2
+			})
+		).append(shine2 = $("<img>")
+			.attr("src", src)
+			.css({
+				cursor: "pointer",
+				position: "absolute",
+				width: width,
+				height: height,
+				// "-webkit-filter": "hue-rotate(90deg) grayscale(0.0)",
+				top: -width/2,
+				left: -height/2
+			})
+		).append(shine3 = $("<img>")
+			.attr("src", src_2)
+			.css({
+				cursor: "pointer",
+				position: "absolute",
+				width: width*0.9*0.3,
+				height: height*0.9*0.3,
+				// "-webkit-filter": "hue-rotate(90deg) grayscale(0.0)",
+				top: -width*0.9*0.3/2,
+				left: -height*0.9*0.3/2
+			})
+		).appendTo(mapDiv);
+		
+		var hueRotate = {
+			0: 45*0,
+			1: 45*1,
+			2: 45*2,
+			3: 45*3,
+			4: 45*4,
+			5: 45*5,
+			6: 45*6,
+			7: 45*7
+		};
+		hueRotate = hueRotate[params.type || 0];
+		if(hueRotate){
+			shine1.css("-webkit-filter", "hue-rotate("+hueRotate+"deg)");
+			shine2.css("-webkit-filter", "hue-rotate("+hueRotate+"deg)");
+			shine3.css("-webkit-filter", "hue-rotate("+hueRotate+"deg)");
+		}
+		
+		/*
+		new TimelineMax()
+			.set(sun, {x:x, y:y})
+			;
+		*/
+		var timeline = new TimelineMax({repeat:-1})
+			// .set(shine1, {opacity: 0.8})
+			.set(shine2, {opacity: 0.8})
+			// .set(shine3, {opacity: 0.49, scale:1.3})
+			.set(shine3, {opacity: 0.9, scale:1.3})
+			.to(shine1, time, {rotation:360, ease:"linear"}, 0)
+			.to(shine2, time, {rotation:-360, ease:"linear"}, 0)
+			.to(shine3, time, {rotation:360*3, ease:"linear"}, 0)
+			.to(shine3, time/4, {scale:0.9, ease:"linear"}, 0)
+			.to(shine3, time/4, {scale:1.3, ease:"linear"}, time*1/4)
+			.to(shine3, time/4, {scale:0.9, ease:"linear"}, time*2/4)
+			.to(shine3, time/4, {scale:1.3, ease:"linear"}, time*3/4)
+			.to(shine3, time/4, {opacity:0.5, ease:"linear"}, 0)
+			.to(shine3, time/4, {opacity:0.9, ease:"linear"}, time*1/4)
+			.to(shine3, time/4, {opacity:0.5, ease:"linear"}, time*2/4)
+			.to(shine3, time/4, {opacity:0.9, ease:"linear"}, time*3/4)
+			.play(time * Math.random())
+			;
+		sun
+			.data("timeline", timeline)
+			.data("shine1", shine1)
+			.data("shine2", shine2)
+			.data("shine3", shine3)
+			;
+		return sun;
+	}
+	
+	var suns = [
+		{x:100, y:100, size:200, type:0},
+		{x:400, y:200, size:300, type:1},
+		{x:950, y:500, size:210, type:2},
+		{x:1100, y:150, size:150, type:3},
+		{x:1400, y:300, size:250, type:4},
+		{x:700, y:700, size:220, type:5},
+		{x:1300, y:600, size:350, type:6},
+		{x:800, y:400, size:200, type:7},
+	];
+	for(var i in suns){
+		var sun = suns[i];
+		newSunSystem(sun);
+	}
+	return;
+	
+	function dirToAngle(x1, y1, x2, y2, x3, y3){
+        if(x3 === undefined){
+            var x = x1 - x2, y = y1 - y2;
+            if(!x && !y){
+                return 0;
+            }
+            return (90 + Math.atan2(-y, -x) * 180 / Math.PI + 360) % 360;
+        }else{
+            return dirToAngle(x1, y1, x3, y3) - dirToAngle(x2, y2, x3, y3);
+        }
+    }
+	
+	function dirToAngle180(x1, y1, x2, y2){
+		var angle = dirToAngle(x1, y1, x2, y2);
+		return angle > 180 ? angle - 360 : angle;
+	}
+	
+	var shipId = 0;
+	function newShip(src, width, height){
+		//width |= 0;
+		//height |= 0;
+		console.log("newShip", shipId);
+		// return $("<a href='#'></a>").css({
+		return $("<div />").css({
+			position: "absolute",
+			// width: width,
+			// height: height,
+		}).append($("<img>")
+			.attr("src", src)
+			.css({
+				cursor: "pointer",
+				position: "absolute",
+				width: width,
+				height: height,
+				top: -width/2,
+				left: -height/2
+			})
+		).data("shipId", ++shipId).click(function(){
+			console.log("click ship", $(this).data("shipId"));
+		});
+	}
+	
+	function createAnimatedSun(){
+		// var sun = newSun(map.width*0.8, null, 120).appendTo(mapDiv);
+		var sun = newSun(map.width*0.5, null, 120).appendTo(mapDiv);
+		var timeline = new TimelineMax()
+			.set(sun, {x:map.width*0.15, y:map.height*0.3})
+			;
+		return sun; // .data("timeline", timeline);	
+	}
+	createAnimatedSun();
+	
+	/*
+	$("<div />").css({"background-color": "rgba(255,0,0,0.5)", position: 'absolute', width:800, height:600}).appendTo(mapDiv);	
+	TweenMax.to(newShip("<%=baseUrl%>/assets/img/units/Imperial_Javelin_Fighter.png", 64, 64).appendTo(mapDiv), 0, 
+		{x:800, y:600, rotation:45});
+	*/
+	
+	function createAnimatedShip(src, width, height, onComplete){
+		src = src || (function(){
+			var list = [
+				"Imperial_Javelin_Fighter.png",
+				"Imperial_Phalanx_Fighter.png",
+				"Imperial_Praetorian_Cruiser.png",
+				"Imperial_Ballista_Fighter.png",
+				"Alliance_Hornet_Fighter.png",
+				"Alliance_Scorpion_Fighter.png",
+				"Tribe_Heaven_Fighter.png",
+				"Tribe_Paradise_Cruiser.png",
+				"Rebel_Midgard_Frigate.png",
+			];
+			return "<%=baseUrl%>/assets/img/units/"+list[Math.floor(list.length*Math.random())];
+		})();
+		width = width || 64;
+		height = height || width;
+		
+		var ax = mapDiv.width() * (-0.1 + 1.1*Math.random());
+		var ay = mapDiv.height() * (-0.1 + 1.1*Math.random());
+		var bx = mapDiv.width() * (-0.1 + 1.1*Math.random());
+		var by = mapDiv.height() * (-0.1 + 1.1*Math.random());
+		
+		var ship = newShip(src, width, height).appendTo(mapDiv);
+		var timeline = new TimelineMax({onComplete: onComplete})
+			.set(ship, {x:ax, y:ay, opacity:0})
+			.to(ship, 0.2, {opacity:1})
+			.to(ship, 0.5 + 0.5 * Math.random(), {rotation:dirToAngle(ax, ay, bx, by)+"_short"})
+			.to(ship, 20 + 20 * Math.random(), {x:bx, y:by, ease:"linear"})
+			.to(ship, 0.2, {opacity:0})
+			;
+		return ship.data("timeline", timeline);
+	}
+	
+	function startShip(){
+		var ship = createAnimatedShip(null, 32 + 64*Math.random(), null, function(){
+			ship.data("timeline").kill();
+			ship.remove();
+			setTimeout(startShip, 100);
+		});
+	}
+	
+	for(var i = 0; i < 10; i++){
+		startShip();
+	}
+	
+});
+</script>
+
+<%if(false){%>
+<div class="row">
+	<div class="col-xs-12">
+		<div id="map-container" width="100%"></div>
+	</div>
+</div>
+<%}/*if*/%>

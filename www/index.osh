@@ -1,0 +1,10 @@
+﻿<%
+	// require framework
+	require("../../objectscript.org/framework/components/Application")
+	
+	// require application class
+	require("../protected/components/GameApplication")
+	
+	// run application
+	GameApplication(require("../protected/config/config-main")).run()
+	
