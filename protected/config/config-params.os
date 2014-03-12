@@ -4,8 +4,8 @@ return extends {
 	ADMIN_PASSWORD = "Yie2VPhoo",
 } {
 	CLIENT_VERSION = 2,
-	TILE_SIZE = 256,
-	MAX_ZOOM = 16,
-	MIN_ZOOM = 1,
-	DEF_ZOOM = 3,
+	TILE_SIZE = 10,
+	// MAX_ZOOM = 16,
+	// MIN_ZOOM = 1,
+	// DEF_ZOOM = 3,
 }

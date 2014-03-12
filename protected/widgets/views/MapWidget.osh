@@ -21,7 +21,14 @@
 $(function(){
 	oxsar3.main(<%=json.encode{
 		mapId = @containerId,
-		loadTileDataUrl = @controller.createUrl{controller="ajax", action="loadTileData"},
+		baseUrl = app.request.fullBaseUrl,
+		loadTileDataUrl = @controller.createUrl{controller="gameAjax", action="loadTileData"},
+		horizSize = [-500, 500],
+		vertSize = [-500, 500],
+		ruleSize = 128,
+		tileSize = app.params.TILE_SIZE,
+		ruleWidth = 45;
+		ruleHeight = 40;
 		/* tileSize = tileSize,
 		maxZoom = app.params.MAX_ZOOM,
 		minZoom = app.params.MIN_ZOOM,
@@ -31,6 +38,7 @@ $(function(){
 		lang = {
 			// youAreHere: _T("You are here"),
 		}, */
+		__dummy__ = 0
 	}%>);
 	return;
 
